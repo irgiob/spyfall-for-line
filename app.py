@@ -239,7 +239,7 @@ def handle_message(event):
         elif txt == 'developer exit':
             GAMES[game_ID]['developer_mode'] = False
             output = "Developer Mode Deactivated."
-        elif '\n' in developer_txt:
+        elif '\n' in txt:
             developer_txt = txt.split("\n")
             if developer_txt[0] == 'add new location':
                 output = add_location(developer_txt)
