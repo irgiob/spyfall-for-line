@@ -23,7 +23,7 @@ app = Flask(__name__)
 GAMES = {}
 LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
-MIN_PLAYERS = 2
+MIN_PLAYERS = 1
 MAX_PLAYERS = 8
 DEVELOPER_NAME = 'b0nd'
 NEW_LOC_LINE_LEN = 9
@@ -171,7 +171,7 @@ def handle_message(event):
                 output = f'{user_name} voted for player {vote_txt}.'
             else:
                 output = f'{user_name}, that is not a valid vote.'
-        elif vote_txt == end:
+        elif vote_txt == "end":
             max_ID = None
             max_votes = 0
             for player in GAMES[game_ID]['players']:
