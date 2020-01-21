@@ -25,6 +25,8 @@ LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
 MIN_PLAYERS = 3
 MAX_PLAYERS = 8
+DEVELOPER_NAME = 'b0nd'
+NEW_LOC_LINE_LEN = 9
 
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
 line_bot_api = LineBotApi(
@@ -226,8 +228,21 @@ def handle_message(event):
         return
     elif txt == "alohamora":
         output = return_secrets(game_ID)
-    '''elif GAMES[game_ID]['developer_mode'] = True:
-        developer_txt = txt.split("\n")'''
+    if txt == "developer " + DEVELOPER_NAME:
+        GAMES[game_ID]['developer_mode'] = True
+        output = "Developer Mode Activated."
+    elif GAMES[game_ID]['developer_mode'] == True:
+        if developer_txt[0] == 'print locations':
+            with open(SECRET_LOC_FILE, 'r') as sec:
+                sec_data = json.load(sec)
+                print(sec_data)
+            output = "Locations printed to terminal."
+        elif '\n' in developer_txt:
+            developer_txt = txt.split("\n")
+            if developer_txt[0] == 'add new location':
+                output = add_location(developer_txt)
+            elif developer_txt[0] == 'delete location':
+                output = delete_location(developer_txt)
     print(GAMES[game_ID])
     if output != None:
         line_bot_api.reply_message(
@@ -291,9 +306,44 @@ def return_players(game_ID):
     count = 1
     output = "Players:\n"
     for player in GAMES[game_ID]['players']:
-        output += f'{count}. {player}\n'
+        player_name = GAMES[game_ID]['players'][player]['player_name']
+        output += f'{count}. {player_name}\n'
         count += 1
     output += "Use player number to vote."
+    return output
+
+def add_location(developer_txt):
+    with open(SECRET_LOC_FILE, 'r') as sec:
+        sec_data = json.load(sec)
+    if len(developer_txt) != NEW_LOC_LINE_LEN:
+        output = "Location addition failed."
+    else:
+        new_roles = []
+        for role in developer_txt[2:]:
+            new_roles.append(role)
+        sec_data[developer_txt[1]] = new_roles
+        with open(SECRET_LOC_FILE, 'w') as json_file:
+            json.dump(sec_data, json_file)
+        output = "Location successfully added."
+    return output
+
+def delete_location(developer_txt):
+    with open(LOC_FILE, 'r') as loc:
+        loc_data = json.load(loc)
+    with open(SECRET_LOC_FILE, 'r') as sec:
+        sec_data = json.load(sec)
+    if developer_txt[1] in loc_data:
+        loc_data.pop(developer_txt[1])
+        output = "Location successfully deleted"
+    elif developer_txt[1] in sec_data:
+        sec_data.pop(developer_txt[1])
+        output = "Location successfully deleted"
+    else:
+        output = "Location deletion failed."
+    with open(LOC_FILE, 'w') as json_file:
+        json.dump(loc_data, json_file)
+    with open(SECRET_LOC_FILE, 'w') as json_file:
+        json.dump(sec_data, json_file)
     return output
 
 if __name__ == "__main__":
