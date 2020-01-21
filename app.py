@@ -70,7 +70,7 @@ how_to_play = (
 command_list = (
     "Commands:\n" + 
     "1.\'join\': Adds you to the players list. The game supports 3-8 Players\n" +
-    "2.\'locations'\: Gives you a list of all the locations you can get\n" +
+    "2.\'locations\': Gives you a list of all the locations you can get\n" +
     "3.\'start\': Starts the game, sending each person their roles\n" +
     "4.\'players\': Gives player list with player numbers used to vote\n" +
     "5.\'quit\': ends the game early\n" +
@@ -134,7 +134,7 @@ def handle_message(event):
         output = command_list
     elif txt == "join":
         if GAMES[game_ID]['num_players'] <= 8:
-            if not (user_ID in GAMES['players']):
+            if not (user_ID in GAMES[game_ID]['players']):
                 GAMES[game_ID]['num_players'] += 1
                 player_num = GAMES[game_ID]['num_players']
                 GAMES[game_ID]['players'][user_ID] = {
@@ -228,6 +228,7 @@ def handle_message(event):
         output = return_secrets(game_ID)
     '''elif GAMES[game_ID]['developer_mode'] = True:
         developer_txt = txt.split("\n")'''
+    print(GAMES[game_ID])
     if output != None:
         line_bot_api.reply_message(
             event.reply_token,
