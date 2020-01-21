@@ -23,7 +23,7 @@ app = Flask(__name__)
 GAMES = {}
 LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
-MIN_PLAYERS = 3
+MIN_PLAYERS = 1
 MAX_PLAYERS = 8
 DEVELOPER_NAME = 'b0nd'
 NEW_LOC_LINE_LEN = 9
@@ -157,7 +157,7 @@ def handle_message(event):
             GAMES[game_ID]['game_start'] = True
             GAMES[game_ID]['location'] = random_location(game_ID)
             give_roles(game_ID)
-    elif 'vote' in txt:
+    elif 'vote' in txt and user_ID in GAMES[game_ID]['players']:
         vote_txt = txt.split(" ")[1]
         if GAMES[game_ID]['players'][user_ID]['voted'] == False:
             if vote_txt in "12345678":
