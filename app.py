@@ -127,7 +127,7 @@ def handle_message(event):
     if txt == "locations":
         output = return_locations(game_ID)
     elif txt == "players":
-        output = return_players()
+        output = return_players(game_ID)
     elif txt == "rules":
         output = how_to_play
     elif txt == "commands":
@@ -156,7 +156,7 @@ def handle_message(event):
             GAMES[game_ID]['game_start'] = True
             GAMES[game_ID]['location'] = random_location(game_ID)
             give_roles(game_ID)
-    elif vote in txt:
+    elif 'vote' in txt:
         vote_txt = txt.split(" ")[1]
         if GAMES[game_ID]['players'][user_ID]['voted'] == False:
             if vote_txt in "12345678":
