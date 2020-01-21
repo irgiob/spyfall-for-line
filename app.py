@@ -118,11 +118,11 @@ def handle_message(event):
     txt = str(event.message.text).lower()
     user_ID = str(event.source.user_id)
     user_name = str(line_bot_api.get_profile(user_ID).display_name)
-    locations = return_locations().split('\n')[1:-1]
     if isinstance(event.source, SourceGroup):
         game_ID = str(event.source.group_id)
     elif isinstance(event.source, SourceRoom):
         game_ID = str(event.source.room_id)
+    locations = return_locations(game_ID).split('\n')[1:-1]
     
     if txt == "locations":
         output = return_locations(game_ID)
