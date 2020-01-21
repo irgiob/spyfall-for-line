@@ -277,10 +277,11 @@ def give_roles(game_ID):
         roles = sec_data[GAMES[game_ID]['location']]
     for i in GAMES[game_ID]['players']:
         players.append(i)
-    players = shuffle(players)
+    print(players)
+    shuffle(players)
     GAMES[game_ID]['players'][players[0]]['role'] = 'Spy'
     players = players[1:]
-    roles = shuffle(roles)
+    shuffle(roles)
     count = 0
     for player in players:
         GAMES[game_ID]['players'][player]['role'] = roles[count]
