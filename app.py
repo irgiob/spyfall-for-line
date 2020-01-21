@@ -158,18 +158,20 @@ def handle_message(event):
             GAMES[game_ID]['game_start'] = True
             GAMES[game_ID]['location'] = random_location(game_ID)
             give_roles(game_ID)
+            send_messages(game_ID)
+            output = "Game has begun!"
     elif 'vote' in txt and user_ID in GAMES[game_ID]['players']:
         vote_txt = txt.split(" ")[1]
         if GAMES[game_ID]['players'][user_ID]['voted'] == False:
             if vote_txt in "12345678":
                 for player in GAMES[game_ID]['players']:
-                    if GAMES[game_ID]['players'][player]['player_num'] == vote_txt:
+                    if str(GAMES[game_ID]['players'][player]['player_num']) == vote_txt:
                         GAMES[game_ID]['players'][player]['votes'] += 1
                 GAMES[game_ID]['players'][user_ID]['voted'] = True
                 output = f'{user_name} voted for player {vote_txt}.'
             else:
                 output = f'{user_name}, that is not a valid vote.'
-        elif vote_text == end:
+        elif vote_txt == end:
             max_ID = None
             max_votes = 0
             for player in GAMES[game_ID]['players']:
@@ -286,6 +288,17 @@ def give_roles(game_ID):
     for player in players:
         GAMES[game_ID]['players'][player]['role'] = roles[count]
         count += 1
+
+def send_messages(game_ID):
+    for player in GAMES[game_ID]['players']:
+        role = GAMES[game_ID]['players'][player]['role']
+        location = GAMES[game_ID]['location']
+        message = f'You are the {role}.\n'
+        if role == 'Spy':
+            message += "Try to figure out what the location is."
+        else:
+            message += f'The location is {location}. Figure out who the spy is!'
+        line_bot_api.push_message(player, TextSendMessage(text=message))
 
 def return_locations(game_ID):
     output = 'Locations:\n'
