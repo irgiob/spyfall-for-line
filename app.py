@@ -231,12 +231,12 @@ def handle_message(event):
         GAMES[game_ID]['developer_mode'] = True
         output = "Developer Mode Activated."
     elif GAMES[game_ID]['developer_mode'] == True:
-        if developer_txt == 'print locations':
+        if txt == 'print locations':
             with open(SECRET_LOC_FILE, 'r') as sec:
                 sec_data = json.load(sec)
                 print(sec_data)
             output = "Locations printed to terminal."
-        elif developer_txt == 'developer exit':
+        elif txt == 'developer exit':
             GAMES[game_ID]['developer_mode'] = False
             output = "Developer Mode Deactivated."
         elif '\n' in developer_txt:
