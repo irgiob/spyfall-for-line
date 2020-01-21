@@ -23,7 +23,7 @@ app = Flask(__name__)
 GAMES = {}
 LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
-MIN_PLAYERS = 1
+MIN_PLAYERS = 2
 MAX_PLAYERS = 8
 DEVELOPER_NAME = 'b0nd'
 NEW_LOC_LINE_LEN = 9
@@ -134,7 +134,7 @@ def handle_message(event):
     elif txt == "commands":
         output = command_list
     elif txt == "join":
-        if GAMES[game_ID]['num_players'] <= 8:
+        if GAMES[game_ID]['num_players'] <= MAX_PLAYERS:
             if not (user_ID in GAMES[game_ID]['players']):
                 GAMES[game_ID]['num_players'] += 1
                 player_num = GAMES[game_ID]['num_players']
@@ -151,7 +151,7 @@ def handle_message(event):
         else:
             output = "Maximum number of players has been reached."
     elif txt == "start":
-        if GAMES[game_ID]['num_players'] < 3:
+        if GAMES[game_ID]['num_players'] < MIN_PLAYERS:
             output = "Not enough players."
         else:
             GAMES[game_ID]['game_start'] = True
