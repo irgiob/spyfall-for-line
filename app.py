@@ -1,8 +1,8 @@
 # spyfall-for-line / app.py
 
 import os
+import json
 from decouple import config
-from game_func import *
 from flask import (
     Flask, request, abort
 )
@@ -18,6 +18,8 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
+games = {}
+LOC_FILE = 'data.txt'
 
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
 line_bot_api = LineBotApi(
@@ -46,11 +48,39 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+@handler.add(JoinEvent)
+def handle_join(event):
+    if isinstance(event.source, SourceGroup):
+        game_ID = event.SourceGroup.group_id
+    if isinstance(event.source, SourceRoom):
+        game_ID = event.SourceRoom.user_id
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=str(game_ID)))
+
+@handler.add(LeaveEvent)
+def handle_leave(event):
+    pass
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    if event.message.text = 'location all':
+        loc_message = return_locations()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=loc_message))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
+
+def return_locations():
+    output = 'Locations:\n'
+    with open(LOC_FILE, 'r') as loc:
+        loc_data = json.load(loc)
+    for i in loc_data:
+        output += f'{i}\n'
+    return output
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
