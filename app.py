@@ -164,9 +164,9 @@ def handle_message(event):
                     if GAMES[game_ID]['players'][player]['player_num'] == vote_txt:
                         GAMES[game_ID]['players'][player]['votes'] += 1
                 GAMES[game_ID]['players'][user_ID]['voted'] = True
-                output = f'{GAMES[game_ID]['players'][player]['player_name']} voted for player {vote_txt}.'
+                output = f'{user_name} voted for player {vote_txt}.'
             else:
-                output = f'{GAMES[game_ID]['players'][player]['player_name']}, that is not a valid vote.'
+                output = f'{user_name}, that is not a valid vote.'
         elif vote_text == end:
             max_ID = None
             max_votes = 0
@@ -174,13 +174,14 @@ def handle_message(event):
                 if GAMES[game_ID]['players'][player]['votes'] > max_votes:
                     max_ID = player
                     max_votes = GAMES[game_ID]['players'][player]['votes']
+            suspect = GAMES[game_ID]['players'][max_ID]['player_name']
             if GAMES[game_ID]['players'][max_ID]['role'] == 'Spy':
                 GAMES[game_ID]['guess_correct'] = True
-                output = f'You are correct! {GAMES[game_ID]['players'][max_ID]['player_name']} was the spy! '
+                output = f'You are correct! {suspect} was the spy! '
                 output += "The spy now still has a chance to win if they type the name of the right location. "
                 output += "Type \'locations\' to see a list of locations."
             else:
-                output +=  f'Oh no! {GAMES[game_ID]['players'][max_ID]['player_name']} was not the spy! '
+                output +=  f'Oh no! {suspect} was not the spy! '
                 output += 'Better luck next time.'
                 line_bot_api.reply_message(
                     event.reply_token,
