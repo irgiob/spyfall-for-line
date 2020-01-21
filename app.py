@@ -237,6 +237,9 @@ def handle_message(event):
                 sec_data = json.load(sec)
                 print(sec_data)
             output = "Locations printed to terminal."
+        elif developer_txt[0] == 'developer exit':
+            GAMES[game_ID]['developer_mode'] = False
+            output = "Developer Mode Deactivated."
         elif '\n' in developer_txt:
             developer_txt = txt.split("\n")
             if developer_txt[0] == 'add new location':
