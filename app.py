@@ -64,7 +64,7 @@ def handle_leave(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text = 'location all':
+    if event.message.text == 'location all':
         loc_message = return_locations()
         line_bot_api.reply_message(
             event.reply_token,
