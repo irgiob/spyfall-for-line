@@ -7,7 +7,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError 
 from linebot.models import MessageEvent, TextMessage, TextSendMessage 
 
-app = Flask (__ name__) 
+app = Flask(__name__)
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable 
 line_bot_api = LineBotApi ( 
     config ( "LINE_CHANNEL_ACCESS_TOKEN", 
