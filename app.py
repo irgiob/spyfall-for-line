@@ -89,7 +89,6 @@ def handle_join(event):
         'game_start': False,
         'players': {},
         'num_players': 0,
-        'num_votes': 0,
         'location': None,
         'guess_correct': None,
         'developer_mode': False,
@@ -232,12 +231,12 @@ def handle_message(event):
         GAMES[game_ID]['developer_mode'] = True
         output = "Developer Mode Activated."
     elif GAMES[game_ID]['developer_mode'] == True:
-        if developer_txt[0] == 'print locations':
+        if developer_txt == 'print locations':
             with open(SECRET_LOC_FILE, 'r') as sec:
                 sec_data = json.load(sec)
                 print(sec_data)
             output = "Locations printed to terminal."
-        elif developer_txt[0] == 'developer exit':
+        elif developer_txt == 'developer exit':
             GAMES[game_ID]['developer_mode'] = False
             output = "Developer Mode Deactivated."
         elif '\n' in developer_txt:
@@ -246,7 +245,7 @@ def handle_message(event):
                 output = add_location(developer_txt)
             elif developer_txt[0] == 'delete location':
                 output = delete_location(developer_txt)
-    print(GAMES[game_ID])
+    print(GAMES)
     if output != None:
         line_bot_api.reply_message(
             event.reply_token,
