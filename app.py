@@ -23,7 +23,7 @@ app = Flask(__name__)
 GAMES = {}
 LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
-MIN_PLAYERS = 1
+MIN_PLAYERS = 3
 MAX_PLAYERS = 8
 DEVELOPER_NAME = 'b0nd'
 NEW_LOC_LINE_LEN = 9
@@ -198,7 +198,7 @@ def handle_message(event):
     elif txt in locations:
         if GAMES[game_ID]['players'][user_ID]['role'] == 'Spy':
             if GAMES[game_ID]['guess_correct'] == True:
-                if txt == GAMES[game_ID]['location']:
+                if txt == GAMES[game_ID]['location'].lower():
                     output = "Correct! The Spy wins!"
                     line_bot_api.reply_message(
                         event.reply_token,
