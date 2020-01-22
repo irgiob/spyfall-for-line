@@ -124,7 +124,7 @@ def handle_message(event):
     elif isinstance(event.source, SourceRoom):
         game_ID = str(event.source.room_id)
         user_name = str(line_bot_api.get_room_member_profile(game_ID,user_ID).display_name)
-    locations = return_locations(game_ID).split('\n')[1:-1]
+    locations = return_locations(game_ID).lower().split('\n')[1:-1]
     
     if txt == "locations":
         output = return_locations(game_ID)
