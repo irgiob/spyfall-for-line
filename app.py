@@ -26,7 +26,7 @@ LOC_FILE = 'data.txt'
 SECRET_LOC_FILE = 'secrets.txt'
 MIN_PLAYERS = 3
 MAX_PLAYERS = 8
-DEVELOPER_NAME = 'b0nd'
+DEVELOPER_NAME = 'mr.robot'
 NEW_LOC_LINE_LEN = 9
 
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
