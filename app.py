@@ -116,7 +116,7 @@ def handle_leave(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     output = None
-    txt = str(event.message.text).lower()
+    txt = str(event.message.text).lower().rstrip()
     user_ID = str(event.source.user_id)
     if isinstance(event.source, SourceGroup):
         game_ID = str(event.source.group_id)
@@ -185,7 +185,7 @@ def handle_message(event):
                 output += "The spy now still has a chance to win if they type the name of the right location. "
                 output += "Type \'locations\' to see a list of locations."
             else:
-                output +=  f'Oh no! {suspect} was not the spy! '
+                output =  f'Oh no! {suspect} was not the spy! '
                 output += 'Better luck next time.'
                 line_bot_api.reply_message(
                     event.reply_token,
